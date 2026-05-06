@@ -7,7 +7,6 @@ load_dotenv()
 from datetime import datetime
 import requests
 import os
-import ollama
 from groq import Groq
 
 client = Groq(

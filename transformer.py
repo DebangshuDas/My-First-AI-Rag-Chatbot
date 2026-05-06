@@ -1,7 +1,3 @@
-from sentence_transformers import SentenceTransformer
-import faiss
-import numpy as np
-import ollama
 from groq import Groq
 from dotenv import load_dotenv
 import os

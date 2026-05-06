@@ -1,5 +1,3 @@
-import ollama
-import re
 import json
 from groq import Groq
 from dotenv import load_dotenv
