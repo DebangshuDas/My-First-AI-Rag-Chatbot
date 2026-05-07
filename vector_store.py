@@ -2,6 +2,7 @@ import faiss
 import numpy as np
 import pickle
 from sentence_transformers import SentenceTransformer
+import os
 
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
@@ -28,6 +29,14 @@ def build_index(chunks):
 
 
 def load_index():
+
+    # 🚨 check existence
+    if not os.path.exists(INDEX_FILE):
+        return None, None
+
+    if not os.path.exists(CHUNKS_FILE):
+        return None, None
+
     index = faiss.read_index(INDEX_FILE)
 
     with open(CHUNKS_FILE, "rb") as f:

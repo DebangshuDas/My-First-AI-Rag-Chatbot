@@ -2,6 +2,10 @@ import streamlit as st
 from ai_chatbot import agent_response
 from prompts import JSON_PROMPT as system_prompt
 from chatbot import get_weather
+from pdf_loader import load_pdf
+from chunker import chunk_text
+from vector_store import build_index
+import os
 
 
 # ---------------- CONFIG ---------------- #
@@ -21,6 +25,32 @@ with st.sidebar:
             {"role": "system", "content": system_prompt}
         ]
         st.success("Chat cleared!")
+
+    st.markdown("---")
+    st.subheader("📄 Upload PDF")
+
+    uploaded_file = st.file_uploader(
+        "Upload company document",
+        type=["pdf"]
+    )
+    if uploaded_file is not None:
+
+        with open(uploaded_file.name, "wb") as f:
+            f.write(uploaded_file.getbuffer())
+
+        st.success(f"Uploaded: {uploaded_file.name}")
+
+        if st.button("Build Knowledge Base"):
+
+            with st.spinner("Building RAG index..."):
+
+                text = load_pdf(uploaded_file.name)
+
+                chunks = chunk_text(text)
+
+                build_index(chunks)
+
+            st.success("Knowledge base built successfully!")
 
     # ---------------- LIVE WEATHER ---------------- #
     st.markdown("---")
@@ -80,6 +110,12 @@ if "chat_history" not in st.session_state:
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.write(msg["content"])
+
+# ---------------- DISPLAY KNOWLEDGE BASE STATUS ---------------- #
+if os.path.exists("faiss_index.bin"):
+    st.success("📚 Knowledge Base Ready")
+else:
+    st.warning("⚠️ Upload and build a PDF knowledge base first")
 
 # ---------------- USER INPUT ---------------- #
 user_input = st.chat_input("💬 Ask me anything...")

@@ -9,10 +9,13 @@ client = Groq(
 )
 from vector_store import load_index, search
 
-index, chunks = load_index()
 
 
 def rag_response(query):
+    index, chunks = load_index()
+
+    if index is None or chunks is None:
+        return "No knowledge base found. Please upload a PDF first."
 
     context = search(query, index, chunks)
     context_text = "\n".join(context)
