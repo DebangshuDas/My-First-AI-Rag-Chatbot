@@ -1,7 +1,5 @@
 from dotenv import load_dotenv
 
-from transformer import rag_response
-
 load_dotenv()
 
 from datetime import datetime
@@ -82,8 +80,6 @@ def get_response(user_input:str):
     elif "weather" in user_input:
         city = extract_city(user_input)     #user_input.strip()[10:]      #fixing the user input "weather in {city}"
         return get_weather(city)
-    elif "policy" in user_input or "leave" in user_input:
-        return rag_response(user_input)
     else:
     
         chat_history.append({'role': 'user', 'content': user_input})
