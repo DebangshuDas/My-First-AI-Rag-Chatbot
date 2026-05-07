@@ -28,14 +28,15 @@ def rag_response(query):
     )
 
     prompt = f"""
-        You are a company HR assistant.
+        You are an enterprise legal AI assistant.
 
-        Answer the user's question ONLY using the provided context.
+        Answer ONLY using the provided context.
 
-        If the answer exists in context:
-        - provide complete details
+        For every answer:
         - summarize clearly
-        - do not mention sections only
+        - mention the relevant source document
+        - do not hallucinate
+        - if answer not found, say so
 
         Context:
         {context_text}
