@@ -29,28 +29,57 @@ with st.sidebar:
     st.markdown("---")
     st.subheader("📄 Upload PDF")
 
-    uploaded_file = st.file_uploader(
-        "Upload company document",
-        type=["pdf"]
+    uploaded_files = st.file_uploader(
+        "Upload company documents",
+        type=["pdf"],
+        accept_multiple_files=True
     )
-    if uploaded_file is not None:
 
-        with open(uploaded_file.name, "wb") as f:
-            f.write(uploaded_file.getbuffer())
+    if uploaded_files and st.button("Build Knowledge Base"):
 
-        st.success(f"Uploaded: {uploaded_file.name}")
+        with st.spinner("Building multi-document knowledge base..."):
 
-        if st.button("Build Knowledge Base"):
+            UPLOAD_FOLDER = "uploaded_docs"
 
-            with st.spinner("Building RAG index..."):
+            os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-                text = load_pdf(uploaded_file.name)
+            saved_files = []
 
-                chunks = chunk_text(text)
+            for uploaded_file in uploaded_files:
 
-                build_index(chunks)
+                file_path = os.path.join(
+                    UPLOAD_FOLDER,
+                    uploaded_file.name
+                )
 
-            st.success("Knowledge base built successfully!")
+                with open(file_path, "wb") as f:
+                    f.write(uploaded_file.getbuffer())
+
+                saved_files.append(file_path)
+
+            st.success(f"Uploaded {len(saved_files)} PDFs")
+            all_text = ""
+
+            chunks = []
+
+            for file_path in saved_files:
+
+                pdf_text = load_pdf(file_path)
+
+                for chunk in chunk_text(pdf_text):
+
+                    chunks.append({
+                        "source": os.path.basename(file_path),
+                        "text": chunk
+                    })
+
+            #     all_text += pdf_text + "\n"
+
+            # chunks = chunk_text(all_text)
+
+            build_index(chunks=chunks)
+
+        st.success("📚 Multi-document knowledge base ready!")
 
     # ---------------- LIVE WEATHER ---------------- #
     st.markdown("---")

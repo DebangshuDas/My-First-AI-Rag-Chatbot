@@ -11,7 +11,10 @@ CHUNKS_FILE = "chunks.pkl"
 
 
 def build_index(chunks):
-    embeddings = model.encode(chunks)
+    # embeddings = model.encode(chunks)
+    texts = [chunk["text"] for chunk in chunks]
+    embeddings = model.encode(texts)
+    
     embeddings = np.array(embeddings).astype("float32")
 
     dimension = embeddings.shape[1]

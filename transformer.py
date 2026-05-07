@@ -18,7 +18,14 @@ def rag_response(query):
         return "No knowledge base found. Please upload a PDF first."
 
     context = search(query, index, chunks)
-    context_text = "\n".join(context)
+    # context_text = "\n".join(context)
+
+    context_text = "\n\n".join(
+        [
+            f"Source: {chunk['source']}\n{chunk['text']}"
+            for chunk in context
+        ]
+    )
 
     prompt = f"""
         You are a company HR assistant.
