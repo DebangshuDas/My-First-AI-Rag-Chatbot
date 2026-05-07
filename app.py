@@ -9,7 +9,7 @@ st.set_page_config(page_title="AI Assistant", layout="wide")
 
 # ---------------- HEADER ---------------- #
 st.title("🤖 AI Assistant")
-st.markdown("##### 🚀 Powered by Ollama + Agent + RAG")
+st.markdown("##### 🚀 Powered by Groq + Agent + RAG(temporarily unavailable in production)")
 
 # ---------------- SIDEBAR ---------------- #
 with st.sidebar:
@@ -57,7 +57,7 @@ with st.sidebar:
     st.write("- Agent (tool calling)")
     st.write("- Weather API")
     st.write("- Joke API")
-    st.write("- RAG (knowledge base)")
+    st.write("- RAG (knowledge base)(temporarily unavailable in production)")
     st.markdown("""
         <style>
         .stChatMessage {

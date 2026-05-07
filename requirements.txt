@@ -1,11 +1,11 @@
 streamlit==1.45.1
 requests==2.32.3
 numpy
-faiss-cpu==1.13.0
-sentence-transformers
+# faiss-cpu==1.13.0
+# sentence-transformers
 pypdf
 groq
 python-dotenv
-torch
-transformers
-scikit-learn
+# torch
+# transformers
+# scikit-learn

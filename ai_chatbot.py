@@ -14,7 +14,7 @@ from prompts import JSON_PROMPT
 logging.getLogger("transformers").setLevel(logging.ERROR)
 
 from chatbot import get_joke, get_weather
-from transformer import rag_response
+# from transformer import rag_response
 
 system_prompt = """
 You are an intelligent AI assistant.
@@ -61,7 +61,9 @@ def tool_joke():
     return get_joke()
 
 def tool_rag(query):
-    return rag_response(query)
+    # return rag_response(query)
+
+    return "RAG temporarily disabled in cloud deployment."
 
 def extract_json(reply):
     import re
