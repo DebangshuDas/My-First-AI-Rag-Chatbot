@@ -22,7 +22,7 @@ def rag_response(query):
 
     context_text = "\n\n".join(
         [
-            f"Source: {chunk['source']}\n{chunk['text']}"
+            f"Source: {chunk['source']} | Page: {chunk['page']}\n{chunk['text']}"
             for chunk in context
         ]
     )
@@ -32,11 +32,13 @@ def rag_response(query):
 
         Answer ONLY using the provided context.
 
-        For every answer:
+        Rules:
         - summarize clearly
-        - mention the relevant source document
-        - do not hallucinate
+        - NEVER hallucinate
         - if answer not found, say so
+        - ALWAYS mention source document names
+        - ALWAYS mention page numbers
+        - cite sources clearly
 
         Context:
         {context_text}

@@ -13,7 +13,7 @@ st.set_page_config(page_title="AI Assistant", layout="wide")
 
 # ---------------- HEADER ---------------- #
 st.title("🤖 AI Assistant")
-st.markdown("##### 🚀 Powered by Ollama + Agent + RAG")
+st.markdown("##### 🚀 Powered by Groq + Agent + RAG")
 
 # ---------------- SIDEBAR ---------------- #
 with st.sidebar:
@@ -60,24 +60,28 @@ with st.sidebar:
             st.success(f"Uploaded {len(saved_files)} PDFs")
             all_text = ""
 
-            chunks = []
+            all_chunks = []
 
             for file_path in saved_files:
 
-                pdf_text = load_pdf(file_path)
+                pages = load_pdf(file_path)
 
-                for chunk in chunk_text(pdf_text):
+                for page_data in pages:
 
-                    chunks.append({
-                        "source": os.path.basename(file_path),
-                        "text": chunk
-                    })
+                    page_number = page_data["page"]
+                    text = page_data["text"]
 
-            #     all_text += pdf_text + "\n"
+                    chunks = chunk_text(text)
 
-            # chunks = chunk_text(all_text)
+                    for chunk in chunks:
 
-            build_index(chunks=chunks)
+                        all_chunks.append({
+                            "source": os.path.basename(file_path),
+                            "page": page_number,
+                            "text": chunk
+                        })
+
+            build_index(all_chunks)
 
         st.success("📚 Multi-document knowledge base ready!")
 

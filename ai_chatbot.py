@@ -95,7 +95,7 @@ def agent_response(user_input, chat_history):
         {"role": "user", "content": user_input}
     ]
 
-    print("Chat_History: ", chat_history, "\nMessages: ", messages)
+    # print("Chat_History: ", chat_history, "\nMessages: ", messages)
 
     # response = ollama.chat(
     #     model='llama3',
@@ -242,7 +242,7 @@ def handle_tool_json(data, chat_history):
     # -DO NOT change or round figure numeric data like temperature or atmospheric pressure
     """
 
-    print("Chat_History: ", chat_history)
+    # print("Chat_History: ", chat_history)
 
 
     # final_response = ollama.chat(
