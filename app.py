@@ -6,6 +6,7 @@ from pdf_loader import load_pdf
 from chunker import chunk_text
 from vector_store import build_index
 import os
+from mail_agent import process_mail_flow
 
 
 # ---------------- CONFIG ---------------- #
@@ -134,6 +135,21 @@ with st.sidebar:
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+if "mode" not in st.session_state:
+    st.session_state.mode = "normal"
+
+if "mail_step" not in st.session_state:
+    st.session_state.mail_step = None
+
+if "mail_data" not in st.session_state:
+    st.session_state.mail_data = {
+        "to": "",
+        "cc": "",
+        "bcc": "",
+        "subject": "",
+        "body": ""
+    }
+
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = [
         {"role": "system", "content": system_prompt}
@@ -163,7 +179,10 @@ if user_input:
     # ---------------- AI RESPONSE ---------------- #
     with st.chat_message("assistant"):
         with st.spinner("Thinking... 🤔"):
-            bot_reply = agent_response(user_input, st.session_state.chat_history)
+            if st.session_state.mode == "mail":
+                bot_reply = process_mail_flow(user_input)
+            else:
+                bot_reply = agent_response(user_input, st.session_state.chat_history)
             st.write(bot_reply)
 
     # Save bot response

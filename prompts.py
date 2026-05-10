@@ -39,6 +39,9 @@ AVAILABLE TOOLS
       - enterprise knowledge
       - internal documentation
 
+4. send_mail()
+   → starts conversational mail workflow
+
 ==================================================
 IMPORTANT RAG RULES
 ==================================================
@@ -100,6 +103,10 @@ Examples:
   "input": "Explain GDPR"
 }
 
+{
+  "tool": "send_mail"
+}
+
 --------------------------------------------------
 
 If NO tool is needed:
@@ -144,6 +151,14 @@ User: weather in Kolkata
 {
   "tool": "weather",
   "input": "Kolkata"
+}
+
+--------------------------------------------------
+
+User: send mail to HR
+
+{
+  "tool": "send_mail"
 }
 
 --------------------------------------------------
@@ -234,6 +249,8 @@ AVAILABLE TOOLS
       - contracts
       - regulations
       - internal documentation
+4. send_mail()
+   → starts conversational mail workflow
 
 ==================================================
 IMPORTANT RAG RULES
@@ -280,6 +297,8 @@ TOOL_CALL: joke()
 TOOL_CALL: weather(Kolkata)
 
 TOOL_CALL: rag(company leave policy)
+
+TOOL_CALL: send_mail()
 
 --------------------------------------------------
 

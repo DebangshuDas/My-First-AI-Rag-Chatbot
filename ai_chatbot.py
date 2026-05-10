@@ -2,6 +2,7 @@ import json
 from groq import Groq
 from dotenv import load_dotenv
 import os
+import streamlit as st
 
 load_dotenv()
 
@@ -59,6 +60,9 @@ def tool_weather(city):
 
 def tool_joke():
     return get_joke()
+
+def tool_mail():
+    pass
 
 def tool_rag(query):
     return rag_response(query)
@@ -167,7 +171,8 @@ def handle_tool_json(data, chat_history):
     TOOLS = {
         "weather": tool_weather,
         "joke": tool_joke,
-        "rag": tool_rag
+        "rag": tool_rag,
+        "send_mail": tool_mail
     }
 
     tool_func = TOOLS.get(tool)
@@ -210,13 +215,20 @@ def handle_tool_json(data, chat_history):
 
         return response
     
-    if tool == "joke":
+    elif tool == "joke":
         result = tool_joke()
         chat_history.append({
             "role": "assistant",
             "content": result
         })
         return result
+    
+    elif tool == "send_mail":
+
+        st.session_state.mode = "mail"
+        st.session_state.mail_step = "to"
+
+        return "Enter recipient email:"
     
     if argument:
         result = tool_func(argument)
