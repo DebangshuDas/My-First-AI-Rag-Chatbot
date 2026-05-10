@@ -25,6 +25,17 @@ with st.sidebar:
         st.session_state.chat_history = [
             {"role": "system", "content": system_prompt}
         ]
+        st.session_state.mode = "normal"
+        st.session_state.mail_step = None
+        st.session_state.mail_data = {
+            "to": "",
+            "cc": "",
+            "bcc": "",
+            "topic": "",
+            "subject": "",
+            "body": "",
+            "signature": ""
+        }
         st.success("Chat cleared!")
 
     st.markdown("---")
@@ -146,8 +157,10 @@ if "mail_data" not in st.session_state:
         "to": "",
         "cc": "",
         "bcc": "",
+        "topic": "",
         "subject": "",
-        "body": ""
+        "body": "",
+        "signature": ""
     }
 
 if "chat_history" not in st.session_state:
